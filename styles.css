@@ -1,0 +1,209 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: block;
+    font-family: 'Exo 2', sans-serif;
+    overflow: scroll !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.body-wrapper {
+    max-width: 350px;
+    margin: 10px auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    height:max-content;
+}
+
+.tinkoff {
+    height: 10vh;
+    width: 80%;
+    border-radius: 5px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-image: linear-gradient(to right, #f9d423 0%, #ff4e50 100%);
+    font-weight: bold;
+}
+
+.controls {
+    margin: 2vh auto 1vh;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons__income,
+.buttons__expense {
+    min-width: 45%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.buttons__income {
+    background-color: lightgreen;
+}
+
+.buttons__expense {
+    background-color: #ff726f;
+}
+
+.buttons__income--active,
+.buttons__expense--active {
+    transform: scale(1.2);
+}
+
+.input {
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input--hidden {
+    display: none;
+}
+
+.input__input {
+    border: none;
+    width: 90%;
+    height: 5vh;
+    margin: 0 1vw;
+    text-align: right;
+    outline: none;
+    font-size: 20px;
+}
+
+.input__textarea {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.categories {
+    margin: 0 auto 10px;
+}
+
+.container-income,
+.container-expenses {
+    border: 1px solid black;
+    width: 75vw;
+    min-height: 10vh;
+    border-radius: 5px;
+}
+
+.container-income {
+    overflow-x: scroll;
+}
+
+.container-expenses {
+    overflow-x: scroll;
+}
+
+.container-income--hidden,
+.container-expenses--hidden {
+    display: none;
+}
+
+.categories__income-list,
+.categories__expense-list {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+}
+
+.income-item__container,
+.expense-item__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 62px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-top: 2px;
+    overflow-x: hidden; /* добавить функцию, которая будет удалять часть строки и заменять ее на ..., если ширина span внизу становится больше 64px */
+}
+
+.income-item__container--active {
+    border: 3px solid green;
+}
+
+.expense-item__container--active {
+    border: 3px solid red;
+}
+
+.income-item__container > span,
+.expense-item__container > span {
+    max-width: 62px;
+}
+
+.income-item__container > img,
+.expense-item__container > img {
+    max-width: 40px;
+}
+
+.income-item__container--add,
+.expense-item__container--add {
+    flex-direction: row;
+    padding: 0;
+}
+
+.income-item__container--add > img,
+.expense-item__container--add > img {
+    max-width: 40px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.input__button {
+    width: 100%;
+    height: 5vh;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.transactions {
+    border: 1px solid black;
+    min-height: 30vh;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.transactions-list {
+    list-style: none;
+    margin: 10px 2vw;
+    padding: 0;
+}
+
+.transactions__income,
+.transactions__expense {
+    text-align: right;
+    margin: 2vw 0;
+}
+
+.transactions__income {
+    background-color: lightgreen;
+}
+
+.transactions__expense {
+    background-color: coral;
+}
+
+.transaction-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 3px 3px 5px;
+}

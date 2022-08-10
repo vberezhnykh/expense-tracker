@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expanse Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="body-wrapper">
+        <section class="cards">
+            <div class="tinkoff">
+                <span class="name">TINKOFF</span>
+                <div class="budget">
+                    <span class="budget__number">5000</span>
+                    <span class="budget__currency">₽</span> 
+                </div>
+            </div>
+        </section>
+        <section class="controls">
+            <div class="buttons">
+                <button class="buttons__income">Income</button>
+                <button class="buttons__expense">Expense</button>
+            </div>
+            <div class="input input--hidden">                
+                <div class="categories">
+                    <div class="container-income container-income--hidden">
+                        <ul class="categories__income-list">
+                            <li class="income-item">
+                                <div class="income-item__container">
+                                    <img class="income-item__img" src="assets/salary.png" id="salary" alt="">
+                                    <span>Salary</span>
+                                </div> 
+                            </li>
+                            <li class="income-item" >
+                                <div class="income-item__container">
+                                    <img id="cashback" class="income-item__img" src="assets/cashback.png" alt="">
+                                    <span>Cashback</span>
+                                </div>
+                            </li>
+                            <li class="income-item">
+                                <div class="income-item__container">
+                                    <img id="other-income" class="income-item__img" src="assets/other.png" alt="">
+                                    <span>Other</span>
+                                </div>
+                            </li>
+                            <li class="income-item">
+                                <div class="income-item__container income-item__container--add">
+                                    <img src="assets/plus.png" alt="">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="container-expenses container-expenses--hidden">
+                        <ul class="categories__expense-list">
+                            <li class="expense-item">
+                                <div class="expense-item__container">
+                                    <img id="food" class="expense-item__img" src="assets/food.png" alt="">
+                                    <span>Food</span>
+                                </div> 
+                            </li>
+                            <li class="expense-item">
+                                <div class="expense-item__container">
+                                    <img id="dining" class="expense-item__img" src="assets/dining.png" alt="">
+                                    <span>Dining</span>
+                                </div>
+                            </li>
+                            <li class="expense-item">
+                                <div class="expense-item__container">
+                                    <img id="rent" class="expense-item__img" src="assets/rent.png" alt="">
+                                    <span>Rent</span>
+                                </div>
+                            </li>
+                            <li class="expense-item">
+                                <div class="expense-item__container">
+                                    <img id="transport" class="expense-item__img" src="assets/transport.png" alt="">
+                                    <span>Transport</span>
+                                </div>
+                            </li>
+                            <li class="expense-item">
+                                <div class="expense-item__container">
+                                    <img id="other-expense" class="expense-item__img" src="assets/other-expense.png" alt="">
+                                    <span>Other</span>
+                                </div>
+                            </li>
+                            <li class="expense-item">
+                                <div class="expense-item__container expense-item__container--add">
+                                    <img src="assets/plus.png" alt="">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="input__textarea">
+                    <input type="number" class="input__input" placeholder="0">
+                    <span class="input__currency">₽</span>
+                </div>
+                <button class="input__button">Add</button>
+            </div>
+        </section>
+        <section class="transactions">
+            <ul class="transactions-list"></ul>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
