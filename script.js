@@ -156,7 +156,7 @@ function deactivateAllCategory() {
     otherExpenseBorder.classList.remove('expense-item__container--active');
 }
 
-/* function loadTransactions() {
+function loadTransactions() {
     const storage = window.localStorage;
     if (!Object.keys(storage).includes('transactions')) {
         return false;
@@ -164,34 +164,170 @@ function deactivateAllCategory() {
 
     const savedTransactions = Array.from(JSON.parse(localStorage.getItem('transactions')));
     savedTransactions.forEach(transaction => {
-        const categoryValue = transaction.category;
-        const sumValue = transaction.sum;
-        const type = transaction.type;
-
-        const singleTransaction = document.createElement('li');
-        const container = document.createElement('div');
-        const category = document.createElement('span');
+        const day = document.createElement('div');
+        const dateBlock = document.createElement('span');
+        const transactions = document.createElement('ul');
         const sum = document.createElement('span');
-
-        singleTransaction.append(container);
-        container.classList.add('transaction-container');
-        container.append(sum);
-        sum.textContent = `${sumValue} ₽`;
-        container.prepend(category);
-        category.textContent = `${categoryValue}`;
+        let date;
+        const days = document.querySelectorAll('.transaction-day');
         
-        if (type === 'income') {
-            singleTransaction.classList.add('transactions__income');
-            budget.textContent = `${Number(budget.textContent) + Number(sumValue)}`
-        } else if (type === 'expense') {
-            singleTransaction.classList.add('transactions__expense');
-            budget.textContent = `${Number(budget.textContent) - Number(sumValue)}`;
+        function transformDate(string) {
+            const year = string.slice(0, 4);
+            const day = string.slice(8);
+            const month = string.slice(5,7);
+            let monthInWord = '';
+            switch (month) {
+                case '01':
+                    monthInWord = 'January';
+                    break;
+                case '02':
+                    monthInWord = 'February';
+                    break;
+                case '03':
+                    monthInWord = 'March';
+                    break;
+                case '04':
+                    monthInWord = 'April';
+                    break;
+                case '05':
+                    monthInWord = 'May';
+                    break;
+                case '06':
+                    monthInWord = 'June';
+                    break;
+                case '07':
+                    monthInWord = 'July';
+                    break;
+                case '08':
+                    monthInWord = 'August';
+                    break;
+                case '09':
+                    monthInWord = 'September';
+                    break;
+                case '10':
+                    monthInWord = 'October';
+                    break;
+                case '11':
+                    monthInWord = 'November';
+                    break;
+                case '12':
+                    monthInWord = 'December';
+                    break;
+            }
+            date = `${day} ${monthInWord} ${year}`;
+        };
+
+        let counter = 0;
+        function isLater (input, i) {
+        const inputYear = input.slice(0, 4);
+        const inputMonth = input.slice(5,7);
+        const inputDay = input.slice(8);
+
+        let dateToCheck = days[i].id;
+        let yearToCheck = dateToCheck.slice(0, 4);
+        let monthToCheck = dateToCheck.slice(5, 7);
+        let dayToCheck = dateToCheck.slice(8);
+
+        if (inputYear > yearToCheck) {
+            days[i].before(day);
+        } else if (inputYear < yearToCheck) {
+            if (i + 1 === days.length) {
+                days[i].after(day);
+            } else {
+                i++;
+                isLater(inputDate.value, i);
+            }  
+        } else if (inputYear === yearToCheck) {
+            if (inputMonth > monthToCheck) {
+                days[i].before(day);
+            } else if (inputMonth < monthToCheck) {
+                if (i + 1 === days.length) {
+                    days[i].after(day);
+                } else {
+                    i++;
+                    isLater(inputDate.value, i);
+                }
+            } else if (inputMonth === monthToCheck) {
+                if (inputDay > dayToCheck) {
+                    days[i].before(day);
+                } else if (inputDay < dayToCheck) {
+                    if (i + 1 === days.length) {
+                        days[i].after(day);
+                    } else {
+                        i++;
+                        isLater(inputDate.value, i);
+                    }
+                }
+            }
         }
-        transactions.prepend(singleTransaction);
+    } 
+        
+        function createDay() {
+            if (days.length === 0) {
+                transactionSection.children[0].after(day);
+            } else if (days.length > 0) {
+                isLater(transaction.date, counter);
+                counter = 0;
+            }
+            day.classList.add('transaction-day');
+            day.setAttribute('id', transaction.date);
+            day.prepend(dateBlock);
+            transformDate(transaction.date);
+            dateBlock.textContent = `${date}`;
+            day.append(transactions);
+            transactions.classList.add('transactions-list');
+            transactions.classList.add(`_${transaction.date}`);
+        }
+
+        function createTransaction() {
+            const categoryValue = transaction.category;
+            const sumValue = transaction.sum;
+            const type = transaction.type;
+            const date = transaction.date;
+    
+            const singleTransaction = document.createElement('li');
+            const container = document.createElement('div');
+            const sum = document.createElement('span');
+            const category = document.createElement('span');
+            
+            singleTransaction.append(container);
+            container.classList.add('transaction-container');
+            container.append(sum);
+            sum.textContent = `${sumValue} ₽`;
+            container.prepend(category);
+            category.textContent = `${categoryValue}`;
+            
+            if (type === 'income') {
+                singleTransaction.classList.add('transactions__income');
+                budget.textContent = `${Number(budget.textContent) + Number(sumValue)}`
+            } else if (type === 'expense') {
+                singleTransaction.classList.add('transactions__expense');
+                budget.textContent = `${Number(budget.textContent) - Number(sumValue)}`;
+            }
+            transactions.prepend(singleTransaction);
+            return singleTransaction;
+        }
+
+        if (days.length !== 0) {
+            days.forEach((elem) => {
+                const element = document.getElementById(`${transaction.date}`);
+                if (elem === element) {
+                    const transactionList = document.querySelector(`._${transaction.date}`);
+                    singleTransaction = createTransaction();
+                    transactionList.prepend(singleTransaction);
+                } else if (element === null) { 
+                    createDay();
+                    createTransaction();
+                };
+            })
+        } else {
+            createDay();
+            createTransaction();
+        }
     })
 }
 
-window.onload = loadTransactions; */
+window.addEventListener('load', loadTransactions)
 
 function addTransaction() {
     if (activeCategory === undefined) {
@@ -330,6 +466,7 @@ function addTransaction() {
         sum.textContent = `${inputSum.value} ₽`;
         container.prepend(category);
         category.textContent = `${activeCategory.textContent}`;
+        
         if (lastActiveBtn === incomeBtn) {
             singleTransaction.classList.add('transactions__income');
             budget.textContent = `${Number(budget.textContent) + Number(inputSum.value)}`;
@@ -340,7 +477,6 @@ function addTransaction() {
             transactionType = 'expense';
         }
         transactions.prepend(singleTransaction);
-        inputSum.value = '';
         return singleTransaction;
     }
 
@@ -369,8 +505,10 @@ function addTransaction() {
     {
         category: `${activeCategory.textContent}`,
         type: `${transactionType}`,
-        sum: sum.textContent.slice(0, -2),
+        sum: `${inputSum.value}`,
+        date: `${inputDate.value}`
     }]))
+    inputSum.value = '';
     transactionType = undefined;
     activeDate = undefined;
 }
