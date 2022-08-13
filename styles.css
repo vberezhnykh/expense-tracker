@@ -7,9 +7,13 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .body-wrapper {
     max-width: 350px;
-    margin: 10px auto;
+    margin: 30px auto 10px;
     padding-left: 10px;
     padding-right: 10px;
     height:max-content;
@@ -48,6 +52,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: none;
+    font-family: 'Exo 2', sans-serif;
 }
 
 .buttons__income {
@@ -75,20 +80,28 @@ body {
     display: none;
 }
 
-.input__input {
+.input__textarea {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.input__sum {
     border: none;
-    width: 90%;
+    width: 80%;
     height: 5vh;
     margin: 0 1vw;
     text-align: right;
     outline: none;
     font-size: 20px;
+    background-color: rgb(248, 248, 248);
 }
 
-.input__textarea {
-    border: 1px solid black;
-    border-radius: 5px;
-    width: 100%;
+.input__date {
+    max-width: 5vw;
+    height: 87%;
+    border: none;
+    outline: none;
 }
 
 .categories {
@@ -101,6 +114,7 @@ body {
     width: 75vw;
     min-height: 10vh;
     border-radius: 5px;
+    background-color: rgb(248, 248, 248);
 }
 
 .container-income {
@@ -135,6 +149,7 @@ body {
     border-radius: 5px;
     padding-top: 2px;
     overflow-x: hidden; /* добавить функцию, которая будет удалять часть строки и заменять ее на ..., если ширина span внизу становится больше 64px */
+    background-color: rgb(203, 253, 255);
 }
 
 .income-item__container--active {
@@ -173,13 +188,30 @@ body {
     height: 5vh;
     border-radius: 5px;
     margin-top: 5px;
+    background-color: lightblue;
+    border: 0;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.input__button--inactive {
+    opacity: 0.5;
+    background-color: grey;
+    border: 0.5px solid black;
 }
 
 .transactions {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     min-height: 30vh;
     width: 80%;
     margin: 0 auto;
+    background-color: rgb(248, 248, 248);
+}
+
+.transactions > span {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    font-weight: bold;
 }
 
 .transactions-list {
@@ -206,4 +238,17 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 3px 3px 3px 5px;
+}
+
+.transaction-day {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.transaction-day > span {
+    padding-left: 10px;
+    font-weight: bold;
 }
