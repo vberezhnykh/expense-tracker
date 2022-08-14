@@ -252,3 +252,13 @@ body {
     padding-left: 10px;
     font-weight: bold;
 }
+
+.category-text {
+
+}
+
+.close-button {
+    border: none;
+    background-color: rgb(80, 176, 255);
+    font-weight: bold;
+}

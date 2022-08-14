@@ -296,6 +296,7 @@ function loadTransactions() {
             sum.textContent = `${sumValue} ₽`;
             container.prepend(category);
             category.textContent = `${categoryValue}`;
+            category.classList.add('category-text');
             
             if (type === 'income') {
                 singleTransaction.classList.add('transactions__income');
@@ -466,6 +467,7 @@ function addTransaction() {
         sum.textContent = `${inputSum.value} ₽`;
         container.prepend(category);
         category.textContent = `${activeCategory.textContent}`;
+        category.classList.add('category-text')
         
         if (lastActiveBtn === incomeBtn) {
             singleTransaction.classList.add('transactions__income');
@@ -518,6 +520,96 @@ addBtn.addEventListener('click', addTransaction);
 inputSum.addEventListener('keydown', (event) => {
     event.key === 'Enter' ? addBtn.click() : false;
     event.key !== 'Enter' ? toggleAddButtonColor() : false;
+})
+
+/* function deleteTransaction() {
+
+} */
+
+let touchstartX = 0;
+let touchendX = 0;
+let direction;
+
+function checkDirection(e) {
+    if (touchendX < touchstartX) {
+        direction = 'left';
+    } 
+    if (touchendX > touchstartX) {
+        direction = 'right';
+    } 
+}
+
+document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX
+})
+
+document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    checkDirection();
+
+    if (direction === 'right') {
+        const categoryTexts = document.querySelectorAll('.category-text');
+        categoryTexts.forEach(elem => {
+            if (e.target === elem) {
+                const container = e.target.parentElement;
+                if (container.children[0].nodeName !== 'BUTTON') {
+                    const closeBtn = document.createElement('button');
+                    closeBtn.classList.add('close-button');
+                    closeBtn.textContent = 'DELETE';
+                    container.prepend(closeBtn);
+                    closeBtn.addEventListener('click', (e) => {
+                        const item = e.target.parentElement.parentElement;
+                        const itemList = item.parentElement;
+                        const container = item.children[0];
+                        const category = container.children[1].textContent;
+                        const date = itemList.parentElement.id;
+                        const sum = container.children[2].textContent.slice(0, -2);
+                        let type;
+                        if (item.classList.contains('transactions__expense')) {
+                            type = 'expense';
+                        } else if (item.classList.contains('transactions__income')) {
+                            type = 'income';
+                        }
+
+                        let transactions = Array.from(JSON.parse(localStorage.getItem('transactions')));
+                        transactions.forEach(transaction => {
+                            if (transaction.category === category &&
+                                transaction.date === date &&
+                                transaction.sum === sum &&
+                                transaction.type === type) {
+                                    transactions.splice(transactions.indexOf(transaction), 1)
+                                }
+                        })
+                        localStorage.setItem('transactions', JSON.stringify(transactions));
+                        item.remove();
+
+                        if (itemList.children.length === 0) {
+                            itemList.parentElement.remove();
+                        }
+                    })
+                }
+            }
+        })
+    } else if (direction === 'left') {
+        const transactionContainer = document.querySelectorAll('.transaction-container');
+        const categoryTexts = document.querySelectorAll('.category-text');
+        
+        transactionContainer.forEach(elem => {
+            if (e.target === elem) {
+                const container = e.target;
+                const closeBtn = container.children[0];
+                closeBtn.remove();
+            }
+        });
+        categoryTexts.forEach(elem => {
+            if (e.target === elem) {
+                const container = e.target.parentElement;
+                const closeBtn = container.children[0];
+                closeBtn.nodeName === 'BUTTON' ? closeBtn.remove() : false;
+            }
+        })
+    }
+    direction = undefined;
 })
 
 function toggleAddButtonColor() {
