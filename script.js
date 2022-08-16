@@ -294,6 +294,7 @@ function loadTransactions() {
             container.classList.add('transaction-container');
             container.append(sum);
             sum.textContent = `${sumValue} ₽`;
+            sum.classList.add('sum__value');
             container.prepend(category);
             category.textContent = `${categoryValue}`;
             category.classList.add('category-text');
@@ -465,6 +466,7 @@ function addTransaction() {
         container.classList.add('transaction-container');
         container.append(sum);
         sum.textContent = `${inputSum.value} ₽`;
+        sum.classList.add('sum__value');
         container.prepend(category);
         category.textContent = `${activeCategory.textContent}`;
         category.classList.add('category-text')
@@ -521,10 +523,6 @@ inputSum.addEventListener('keydown', (event) => {
     event.key === 'Enter' ? addBtn.click() : false;
     event.key !== 'Enter' ? toggleAddButtonColor() : false;
 })
-
-/* function deleteTransaction() {
-
-} */
 
 let touchstartX = 0;
 let touchendX = 0;
@@ -626,3 +624,54 @@ window.onload = () => {
     inputDate.max = getToday();
     activeDate = inputDate.value;
 }
+
+function updateTransaction(elem) {
+    if (elem.target.classList.contains('category-text')) {
+        console.log('it is text');
+        const input = document.createElement('input');
+        elem.target.after(input);
+        input.value = elem.target.textContent;
+        input.addEventListener('keypress', confirmUpdate);
+        elem.target.classList.add('category-text--hidden')
+    } /* else if (elem.target.classList.contains('sum__value')) {
+        console.log('it is sum');
+        const input = document.createElement('input');
+        elem.target.before(input);
+        input.value = elem.target.textContent;
+        input.addEventListener('keypress', confirmUpdate);
+        elem.target.classList.add('category-text--hidden');
+    } */
+}
+
+function confirmUpdate(event) {
+    if (event.key === 'Enter') {
+        const input = event.target;
+        const transactionContainer = input.parentElement;
+        const sum = transactionContainer.children[2].textContent.slice(0, -2);
+        const listItem = transactionContainer.parentElement;
+        let type = ''
+        if (listItem.classList.contains('transactions__income')) {
+            type = 'income';
+        } else type = 'expense';
+        const date = listItem.parentElement.parentElement.id;
+        const categoryText = transactionContainer.children[0];
+        const uneditedText = document.querySelector('.category-text--hidden').textContent;
+        categoryText.textContent = `${input.value}`;
+        categoryText.classList.remove('category-text--hidden');
+        input.remove();
+
+        let savedTransactions = Array.from(JSON.parse(localStorage.getItem('transactions')));
+        savedTransactions.forEach(singleTransaction => {
+            if (singleTransaction.category === uneditedText &&
+                singleTransaction.type === type &&
+                singleTransaction.sum === sum &&
+                singleTransaction.date === date) {
+                    console.log(singleTransaction)
+                    singleTransaction.category = categoryText.textContent;
+            }
+        })
+        localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+    } 
+}
+
+window.addEventListener('dblclick', updateTransaction)
